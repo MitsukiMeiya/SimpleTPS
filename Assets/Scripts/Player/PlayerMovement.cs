@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -65,9 +66,13 @@ public class PlayerMovement : MonoBehaviour
         return rotateDirVector.normalized;
     }
 
-    public void SetBodyRotation()
+    public void SetAvatarRotation(Vector3 direction)
     {
+        if (direction == Vector3.zero) return;
 
+        Quaternion targetRotaion = Quaternion.LookRotation(direction);
+
+        _avatar.rotation = Quaternion.Lerp(_avatar.rotation, targetRotaion, _playerStatus.RotateSpeed * Time.deltaTime);
     }
 
     private Vector2 GetMouseDirection()
